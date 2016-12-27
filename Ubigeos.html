@@ -1,0 +1,145 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Ubigeos</title>
+  <meta name="description" content="Ubigeos">
+ 
+ <script type="text/javascript">
+
+ //<![CDATA[
+window.onload=function(){
+String.prototype.replaceAt=function(index, character) {
+    return this.substr(0, index) + character + this.substr(index+character.length);
+}
+
+function readMultipleFiles(evt) {
+    //Retrieve all the files from the FileList object
+    var files = evt.target.files;
+
+    if (files) {
+        for (var i = 0, f; f = files[i]; i++) {
+            var r = new FileReader();
+            r.onload = (function (f) {
+                return function (e) {
+                    var contents = e.target.result;
+                          var res = contents.split('\n')
+              
+                    //var res = contents.toString().replace(/[/\u201C\u201D]/g, '"').split('\n')
+                    //var res = contents.toString().replace(String.fromCharCode(65533)," ");
+
+                    //var res = contents.split(/(.+))[1]
+                   // var res = JSON.parse(contents);
+                   // var rex = res.toString().replace("“", "W");
+                  // res = res.toString().replace(/[&\/\\#,+()$~%.'":*?<>{}]/g,'_');
+                 
+                  //  var bueno = res[0].replace(/[/\u201C\u201D]/g, '"')
+
+                    //str.length-1
+                   // alert( res[0].replaceAt(0,'"') );
+                   
+                   var Departamento = "";
+
+                   for (x=0;x<res.length;x++){
+                      res[x] = res[x].replaceAt(0,'"').replaceAt(res[x].length-2,'"') ;
+                      alert(res[x]);
+
+                      //Departamento = res[x].substring(res[x].lastIndexOf("/")+1,res[x].lastIndexOf("/"));
+
+                      var start_pos = res[x].indexOf('/') + 1;
+                      var end_pos = res[x].indexOf('/',start_pos);
+                      var text_to_get = res[x].substring(start_pos,end_pos)
+                      alert(text_to_get);
+
+
+						var empty = text_to_get.replace(/^\s+/, '').replace(/\s+$/, '');
+						if (empty === '') {
+						   alert("Departamento");                    
+						   // Obtener la referencia del elemento body
+							  var body = document.getElementsByTagName("body")[0];
+							 
+							  // Crea un elemento <table> y un elemento <tbody>
+							  var tabla   = document.createElement("table");
+							  var tblBody = document.createElement("tbody");
+							 
+							  // Crea las celdas
+							  for (var i = 0; i < 1; i++) {
+							    // Crea las hileras de la tabla
+							    var hilera = document.createElement("tr");
+							 
+							    for (var j = 0; j < 4; j++) {
+							      // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+							      // texto sea el contenido de <td>, ubica el elemento <td> al final
+							      // de la hilera de la tabla
+							      var celda = document.createElement("td");
+
+                                    var start_pos = res[x].indexOf('"') + 1;
+                                    var end_pos = res[x].indexOf('/',start_pos);
+                                    var name_depar = res[x].substring(start_pos,end_pos)
+                                    alert(name_depar);
+                                    
+                                    var textoCelda = document.createTextNode(name_depar);
+							     
+
+							     // var textoCelda = document.createTextNode("celda en la hilera "+i+", columna "+j);
+							      celda.appendChild(textoCelda);
+							      hilera.appendChild(celda);
+							    }
+							 
+							    // agrega la hilera al final de la tabla (al final del elemento tblbody)
+							    tblBody.appendChild(hilera);
+							  }
+							 
+							  // posiciona el <tbody> debajo del elemento <table>
+							  tabla.appendChild(tblBody);
+							  // appends <table> into <body>
+							  body.appendChild(tabla);
+							  // modifica el atributo "border" de la tabla y lo fija a "2";
+							  tabla.setAttribute("border", "2");  
+
+                              //var table = document.getElementById("tabla");
+							  //var row = table.insertRow(0);
+							  //var cell1 = row.insertCell(0);
+							  //var cell2 = row.insertCell(1);
+							  //cell1.innerHTML = "NEW CELL1";
+							  //cell2.innerHTML = "NEW CELL2";
+                               
+						} else {
+						     
+						}
+                   }
+                 
+                };
+            })(f);
+            r.readAsText(f);
+        }
+    } else {
+        alert("Failed to load files");
+    }
+}
+document.getElementById('fileinput').addEventListener('change', readMultipleFiles, false);
+
+
+
+}//]]> 
+
+
+</script>
+ <!--
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+
+ [if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+  <input type="file" id="fileinput" multiple />
+  <h1>Departamentos</h1>
+
+ <table id="tabla"></table>>
+
+</body>
+</html>
